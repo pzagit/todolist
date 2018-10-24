@@ -17,9 +17,11 @@ const styles = theme => ({
     paddingTop: "35%"
   },
   button: {
-    marginTop: "1em"
+    marginTop: "2em"
   },
   list: {
+    fontSize: "1.5em",
+    paddingTop: "1em",
     margin: "0",
     listStyle: "none",
     padding: "0"
@@ -51,10 +53,22 @@ class Todo extends Component {
     }));
   }
 
+  clearForm = () => {
+    this.setState({
+      task: "",
+      submit: ""
+    })
+  }
+
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.background}>
+      <ul className={classes.list}>
+          {this.state.submit.map(item => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
         <form onSubmit={this.handleSubmit}>
           <div className={classes.centerDiv}>
             <TextField
@@ -64,24 +78,11 @@ class Todo extends Component {
                 className: classes.textField
               }}
               variant="outlined"
+              value={this.state.task}
               onChange={this.handleChange}
             />
           </div>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onSubmit={this.handleSubmit}
-          >
-            Submit
-          </Button>
         </form>
-        <ul className={classes.list}>
-          {this.state.submit.map(item => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
       </div>
     );
   }
