@@ -20,7 +20,9 @@ const styles = theme => ({
     marginTop: "1em"
   },
   list: {
-    listStyle: "none"
+    margin: "0",
+    listStyle: "none",
+    padding: "0"
   }
 });
 
@@ -30,7 +32,7 @@ class Todo extends Component {
   }
   state = {
     task: "",
-    submit: ""
+    submit: []
   };
 
   handleChange = this.handleChange.bind(this);
@@ -44,9 +46,9 @@ class Todo extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.setState({
-      submit: this.state.task
-    });
+    this.setState(prevState => ({
+      submit: [...prevState.submit, this.state.task]
+    }));
   }
 
   render() {
@@ -61,7 +63,6 @@ class Todo extends Component {
               InputProps={{
                 className: classes.textField
               }}
-              value={this.state.task}
               variant="outlined"
               onChange={this.handleChange}
             />
@@ -77,9 +78,9 @@ class Todo extends Component {
           </Button>
         </form>
         <ul className={classes.list}>
-          <li>
-            <h1>{this.state.submit}</h1>
-          </li>
+          {this.state.submit.map(item => (
+            <li key={item}>{item}</li>
+          ))}
         </ul>
       </div>
     );
